@@ -30,6 +30,7 @@ public class ChannelHandlers {
     protected ChannelHandlers() {
     }
 
+    //再度进行包装
     public static ChannelHandler wrap(ChannelHandler handler, URL url) {
         return ChannelHandlers.getInstance().wrapInternal(handler, url);
     }

@@ -60,6 +60,7 @@ public class DubboConfigBindingRegistrar implements ImportBeanDefinitionRegistra
 
     private final Log log = LogFactory.getLog(getClass());
 
+    //spring提供的Environment
     private ConfigurableEnvironment environment;
 
     @Override
@@ -84,6 +85,9 @@ public class DubboConfigBindingRegistrar implements ImportBeanDefinitionRegistra
 
         boolean multiple = attributes.getBoolean("multiple");
 
+
+
+        //
         registerDubboConfigBeans(prefix, configClass, multiple, registry);
 
     }

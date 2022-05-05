@@ -58,6 +58,7 @@ public @interface EnableDubbo {
      * @return the base packages to scan
      * @see DubboComponentScan#basePackages()
      */
+    //这是把这个属性的值，注入给DubboComponentScan的basePackages
     @AliasFor(annotation = DubboComponentScan.class, attribute = "basePackages")
     String[] scanBasePackages() default {};
 

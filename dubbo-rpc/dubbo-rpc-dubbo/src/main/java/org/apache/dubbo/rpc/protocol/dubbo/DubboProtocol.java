@@ -341,6 +341,7 @@ public class DubboProtocol extends AbstractProtocol {
             ExchangeServer server = serverMap.get(key);
 
             // DCL，Double Check Lock
+            //双检查锁，判断server是否已经创建完成
             if (server == null) {
                 synchronized (this) {
                     server = serverMap.get(key);
@@ -358,6 +359,7 @@ public class DubboProtocol extends AbstractProtocol {
     }
 
     private ExchangeServer  createServer(URL url) {
+        //参数配置
         url = URLBuilder.from(url)
                 // send readonly event when server closes, it's enabled by default
                 .addParameterIfAbsent(CHANNEL_READONLYEVENT_SENT_KEY, Boolean.TRUE.toString())
@@ -369,6 +371,7 @@ public class DubboProtocol extends AbstractProtocol {
         // 协议的服务器端实现类型，比如：dubbo协议的mina,netty等，http协议的jetty,servlet等，默认为netty
         String str = url.getParameter(SERVER_KEY, DEFAULT_REMOTING_SERVER);
 
+        //通过SPI机制查看是否有对应的实现类
         if (str != null && str.length() > 0 && !ExtensionLoader.getExtensionLoader(Transporter.class).hasExtension(str)) {
             throw new RpcException("Unsupported server type: " + str + ", url: " + url);
         }
@@ -379,6 +382,7 @@ public class DubboProtocol extends AbstractProtocol {
             // requestHandler是请求处理器，类型为ExchangeHandler
             // 表示从url的端口接收到请求后，requestHandler来进行处理，
             // requestHandler就会从map中找到对应的invoker对象去执行invoke方法
+            //优先获得HeaderExchanger
             server = Exchangers.bind(url, requestHandler);
         } catch (RemotingException e) {
             throw new RpcException("Fail to start server(url: " + url + ") " + e.getMessage(), e);

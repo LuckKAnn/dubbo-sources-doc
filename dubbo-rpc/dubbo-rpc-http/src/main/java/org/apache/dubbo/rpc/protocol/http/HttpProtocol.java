@@ -64,6 +64,7 @@ public class HttpProtocol extends AbstractProxyProtocol {
         return 80;
     }
 
+    //http协议对应的处理器
     private class InternalHandler implements HttpHandler {
 
         private boolean cors;

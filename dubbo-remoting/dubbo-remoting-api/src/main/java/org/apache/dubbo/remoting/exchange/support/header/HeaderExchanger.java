@@ -38,6 +38,7 @@ public class HeaderExchanger implements Exchanger {
     public ExchangeClient connect(URL url, ExchangeHandler handler) throws RemotingException {
         // 利用NettyTransporter去connect
         // 为什么在connect和bind时都是DecodeHandler，解码，解的是把InputStream解析成AppResponse对象
+        //HeaderExchangeClient负责发送心跳
         return new HeaderExchangeClient(Transporters.connect(url, new DecodeHandler(new HeaderExchangeHandler(handler))), true);
     }
 
@@ -48,6 +49,8 @@ public class HeaderExchanger implements Exchanger {
         // 对handler包装了两层，表示当处理一个请求时，每层Handler负责不同的处理逻辑
         // 为什么在connect和bind时都是DecodeHandler，解码，解的是把InputStream解析成RpcInvocation对象
         //Transporters.bind会创建应该Nettyserver，存入到HeaderExchangeServer内部
+        //HeaderExchangeServer负责接收心跳
+        //new DecodeHandler(new HeaderExchangeHandler(handler))会把HeaderExchangeHandler封装到DecodeHandler内部
         return new HeaderExchangeServer(Transporters.bind(url, new DecodeHandler(new HeaderExchangeHandler(handler))));
     }
 

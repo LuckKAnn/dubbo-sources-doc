@@ -53,6 +53,7 @@ public class Transporters {
         if (handlers.length == 1) {
             handler = handlers[0];
         } else {
+            //级联handler?
             handler = new ChannelHandlerDispatcher(handlers);
         }
 

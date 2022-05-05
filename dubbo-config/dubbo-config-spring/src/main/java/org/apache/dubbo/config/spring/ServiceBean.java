@@ -57,10 +57,14 @@ import static org.apache.dubbo.config.spring.util.BeanFactoryUtils.addApplicatio
  *
  * @export
  */
+
+/**
+ * 每个servicebean代表一个Dubbo的服务,ServiceBean对象中的参数就表示服务的参数，
+ * @param <T>
+ */
 public class ServiceBean<T> extends ServiceConfig<T> implements InitializingBean, DisposableBean,
         ApplicationContextAware, ApplicationListener<ContextRefreshedEvent>, BeanNameAware,
         ApplicationEventPublisherAware {
-
 
     private static final long serialVersionUID = 213195494150089726L;
 
